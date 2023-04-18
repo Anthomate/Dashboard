@@ -8,7 +8,7 @@ export const ListItem = ({number, subject}) => {
 
 const styles = StyleSheet.create({
   listItem: {
-    fontSize: "12",
+    fontSize: 12,
     width: "100%",
     marginTop: "5%",
     color: "#fff"

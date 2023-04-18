@@ -1,8 +1,8 @@
 import * as React from 'react';
-import {DashboardView} from "./Components/DashboardView";
-import {SettingsView} from "./Components/SettingsView";
-import { NavigationContainer } from '@react-navigation/native';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import {DashboardView} from "./Views/DashboardView";
+import {SettingsView} from "./Views/SettingsView";
+import {NavigationContainer} from '@react-navigation/native';
+import {createNativeStackNavigator} from '@react-navigation/native-stack';
 
 const Stack = createNativeStackNavigator();
 
@@ -11,10 +11,10 @@ function App() {
         <NavigationContainer>
             <Stack.Navigator
                 initialRouteName="Dashboard"
-                screenOptions={{ headerShown: false }}
+                screenOptions={{headerShown: false}}
             >
-                <Stack.Screen name="Dashboard" component={DashboardView} />
-                <Stack.Screen name="Settings" component={SettingsView} />
+                <Stack.Screen name="Dashboard" component={DashboardView}/>
+                <Stack.Screen name="Settings" component={SettingsView}/>
             </Stack.Navigator>
         </NavigationContainer>
     );
