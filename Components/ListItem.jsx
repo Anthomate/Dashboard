@@ -1,7 +1,16 @@
-import {Text} from "react-native";
+import {StyleSheet, Text} from "react-native";
 
-export const ListItem = () => {
+export const ListItem = ({number, subject}) => {
   return (
-      <Text>Ticket</Text>
+      <Text style={styles.listItem}>#{number} - {subject}</Text>
   )
 }
+
+const styles = StyleSheet.create({
+  listItem: {
+    fontSize: "12",
+    width: "100%",
+    marginTop: "5%",
+    color: "#fff"
+  }
+});

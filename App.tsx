@@ -9,7 +9,10 @@ const Stack = createNativeStackNavigator();
 function App() {
     return (
         <NavigationContainer>
-            <Stack.Navigator initialRouteName="Dashboard">
+            <Stack.Navigator
+                initialRouteName="Dashboard"
+                screenOptions={{ headerShown: false }}
+            >
                 <Stack.Screen name="Dashboard" component={DashboardView} />
                 <Stack.Screen name="Settings" component={SettingsView} />
             </Stack.Navigator>
@@ -18,11 +21,3 @@ function App() {
 }
 
 export default App;
-
-
-
-
-
-
-
-
