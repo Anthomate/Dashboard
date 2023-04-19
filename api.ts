@@ -1,7 +1,7 @@
 import {Buffer} from "buffer";
 import * as FileSystem from "expo-file-system";
 
-async function readConfig() {
+export async function readConfig() {
     try {
         const configPath = FileSystem.documentDirectory + "config.json";
         const configJson = await FileSystem.readAsStringAsync(configPath, {
@@ -30,6 +30,13 @@ export async function getOpenTickets(dateMin: string, username: string, password
     const topLevelDomain = "fr";
     const API_BASE_URL = `${protocol}://${subdomain}-api.simplydesk.${topLevelDomain}/incidentManagement.svc`;
 
+    console.log("Protocol:", protocol);
+    console.log("Subdomain:", subdomain);
+    console.log("Top Level Domain:", topLevelDomain);
+    console.log("Username:", username);
+    console.log("Password:", password);
+    console.log("API Base URL:", API_BASE_URL);
+
     const token = Buffer.from(`${username}:${password}`).toString("base64");
     const headers = new Headers();
     headers.set("Authorization", `Basic ${token}`);
@@ -41,6 +48,7 @@ export async function getOpenTickets(dateMin: string, username: string, password
     }
     return tickets;
 }
+
 
 
 export function countTicketsByState(tickets: any[], stateName: string) {

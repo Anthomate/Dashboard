@@ -1,7 +1,7 @@
 {
   "protocol": "https",
-  "subdomain": "",
+  "subdomain": "anthony",
   "top-level domain": "fr",
-  "username": "",
-  "password": ""
+  "username": "api",
+  "password": "123"
 }

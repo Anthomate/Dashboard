@@ -3,7 +3,7 @@ import * as React from "react";
 import {useEffect, useState} from "react";
 import {CounterItem} from "./Components/CounterItem";
 import {ListItem} from "./Components/ListItem";
-import {countTicketsByState, getNewTickets, getOpenTickets} from "../api";
+import {countTicketsByState, getNewTickets, getOpenTickets, readConfig} from "../api";
 
 export function DashboardView({route, navigation}) {
     const [tickets, setTickets] = useState([]);
@@ -26,6 +26,12 @@ export function DashboardView({route, navigation}) {
         }
 
         loadOpenTickets();
+
+        const timer = setInterval(() => {
+            loadOpenTickets();
+        }, 20000);
+
+        return () => clearInterval(timer);
     }, [route.params?.onSubmit]);
 
     const newTickets = getNewTickets(tickets);
