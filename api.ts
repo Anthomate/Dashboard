@@ -7,7 +7,14 @@ export async function readConfig() {
         const configJson = await FileSystem.readAsStringAsync(configPath, {
             encoding: FileSystem.EncodingType.UTF8,
         });
-        return JSON.parse(configJson);
+        const config = JSON.parse(configJson);
+        return {
+            protocol: config.protocol,
+            topLevelDomain: config.topLevelDomain,
+            username: config.username,
+            password: config.password,
+            subdomain: config.subdomain,
+        };
     } catch (error) {
         console.error(error);
         return null;
@@ -26,8 +33,10 @@ async function fetchOpenTickets(dateMin: any, page: number, headers: Headers, ap
 }
 
 export async function getOpenTickets(dateMin: string, username: string, password: string, subdomain: string, page = 1) {
-    const protocol = "https";
-    const topLevelDomain = "fr";
+    const config = await readConfig();
+    const protocol = config?.protocol || "https";
+    const topLevelDomain = config?.topLevelDomain || "fr";
+
     const API_BASE_URL = `${protocol}://${subdomain}-api.simplydesk.${topLevelDomain}/incidentManagement.svc`;
 
     console.log("Protocol:", protocol);
