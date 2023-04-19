@@ -4,17 +4,27 @@ import {useEffect, useState} from "react";
 import {CounterItem} from "./Components/CounterItem";
 import {ListItem} from "./Components/ListItem";
 import {countTicketsByState, getNewTickets, getOpenTickets, readConfig} from "../api";
+import {TicketDetails} from "./Components/TicketDetails";
 
 export function DashboardView({route, navigation}) {
     const [tickets, setTickets] = useState([]);
+    const [selectedTicket, setSelectedTicket] = useState(null);
+
+    function handleTicketClick(ticket) {
+        if (selectedTicket && selectedTicket.Number === ticket.Number) {
+            setSelectedTicket(null);
+        } else {
+            setSelectedTicket(ticket);
+        }
+    }
 
     useEffect(() => {
         async function loadOpenTickets() {
             const config = await readConfig();
             if (config) {
-                const { username, password, subdomain } = config;
+                const {username, password, subdomain, protocol, topLevelDomain} = config;
                 const dateMin = "11/04/2011";
-                getOpenTickets(dateMin, username, password, subdomain)
+                getOpenTickets(dateMin, username, password, subdomain, protocol, topLevelDomain)
                     .then((data) => {
                         setTickets(data);
                         console.log(data)
@@ -29,7 +39,7 @@ export function DashboardView({route, navigation}) {
 
         const timer = setInterval(() => {
             loadOpenTickets();
-        }, 20000);
+        }, 30000);
 
         return () => clearInterval(timer);
     }, [route.params?.onSubmit]);
@@ -40,16 +50,28 @@ export function DashboardView({route, navigation}) {
         <SafeAreaView style={styles.container}>
             <Text style={styles.title}>Mon Dashboard</Text>
             <View style={styles.container}>
-                <View style={styles.counterFrame}>
-                    <CounterItem backgroundColor="#d9534f" stateName="Nouveau" count={newTickets.length}/>
-                    <CounterItem backgroundColor="#5cb85c" stateName="En Cours" count={countTicketsByState(tickets, "En Cours")}/>
-                    <CounterItem backgroundColor="#ffcc5c" stateName="Suspendu" count={countTicketsByState(tickets, "Suspendu")}/>
-                    <CounterItem backgroundColor="#d9534f" stateName="Réouvert" count={countTicketsByState(tickets, "Réouvert")}/>
-                </View>
+                {selectedTicket ? (
+                    <View style={styles.ticketDetails}>
+                        <ScrollView>
+                            <TicketDetails selectedTicket ={selectedTicket} />
+                        </ScrollView>
+                    </View>
+                ) : (
+                    <View style={styles.counterFrame}>
+                        <CounterItem backgroundColor="#d9534f" stateName="Nouveau" count={newTickets.length}/>
+                        <CounterItem backgroundColor="#5cb85c" stateName="En Cours"
+                                     count={countTicketsByState(tickets, "En Cours")}/>
+                        <CounterItem backgroundColor="#ffcc5c" stateName="Suspendu"
+                                     count={countTicketsByState(tickets, "Suspendu")}/>
+                        <CounterItem backgroundColor="#d9534f" stateName="Réouvert"
+                                     count={countTicketsByState(tickets, "Réouvert")}/>
+                    </View>
+                )}
                 <View style={styles.listContainer}>
                     <ScrollView>
                         {newTickets.map((ticket, index) => (
-                            <ListItem key={index} number={ticket.Number} subject={ticket.Subject}/>
+                            <ListItem key={index} number={ticket.Number} subject={ticket.Subject}
+                                      onClick={() => handleTicketClick(ticket)}/>
                         ))}
                     </ScrollView>
                 </View>
@@ -89,7 +111,7 @@ const styles = StyleSheet.create({
     listContainer: {
         flex: 1,
         margin: "7%",
-        maxHeight: "30%",
+        maxHeight: "30%"
     },
 
     list: {
@@ -99,7 +121,7 @@ const styles = StyleSheet.create({
         flexWrap: "wrap",
         borderRadius: "10%",
         paddingLeft: "10%",
-        overflow: "hidden",
+        overflow: "hidden"
     },
 
     noTickets: {
@@ -122,4 +144,14 @@ const styles = StyleSheet.create({
         fontSize: 18,
         textAlign: 'center',
     },
+    ticketDetails: {
+        backgroundColor: "#484848",
+        padding: 10,
+        borderRadius: 10,
+        marginBottom: 15,
+        marginLeft: 15,
+        marginRight: 15,
+        overflow: "hidden",
+        height: "35%",
+    }
 });

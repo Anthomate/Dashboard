@@ -1,18 +1,24 @@
-import {Button, SafeAreaView, StyleSheet, Text, TextInput, TouchableOpacity, View, Image} from "react-native";
+// Imports
+import { Image, SafeAreaView, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
+import { Picker } from "@react-native-picker/picker";
 import * as React from "react";
-import {useState} from "react";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import * as FileSystem from "expo-file-system";
 
+// Assets
 import usernameIcon from "../assets/username-icon.png";
 import passwordIcon from "../assets/password-icon.png";
-import subdomainIcon from "../assets/subdomain-icon.png";
 
-export function SettingsView({navigation}) {
+// Main component
+export function SettingsView({ navigation }) {
+    // State
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const [subdomain, setSubdomain] = useState("");
+    const [protocol, setProtocol] = useState("");
+    const [tld, setTld] = useState("");
 
+    // Load config
     useEffect(() => {
         async function loadConfig() {
             try {
@@ -25,7 +31,8 @@ export function SettingsView({navigation}) {
                 setUsername(readConfig.username || "");
                 setPassword(readConfig.password || "");
                 setSubdomain(readConfig.subdomain || "");
-
+                setProtocol(readConfig.protocol || "https");
+                setTld(readConfig.topLevelDomain || "com");
             } catch (error) {
                 console.error(error);
             }
@@ -34,11 +41,12 @@ export function SettingsView({navigation}) {
         loadConfig();
     }, []);
 
+    // Handle submit
     const handleSubmit = async () => {
         const config = {
-            protocol: "https",
+            protocol,
             subdomain,
-            "top-level domain": "fr",
+            tld,
             username,
             password,
         };
@@ -66,13 +74,13 @@ export function SettingsView({navigation}) {
         });
     };
 
-
+    // Render
     return (
         <SafeAreaView style={styles.container}>
             <Text style={styles.title}>Paramètres</Text>
             <View style={styles.container}>
                 <View style={styles.inputContainer}>
-                    <Image source={usernameIcon} style={styles.icon} />
+                    <Image source={usernameIcon} style={styles.icon}/>
                     <TextInput
                         style={styles.input}
                         placeholder="Username"
@@ -82,7 +90,7 @@ export function SettingsView({navigation}) {
                     />
                 </View>
                 <View style={styles.inputContainer}>
-                    <Image source={passwordIcon} style={styles.icon} />
+                    <Image source={passwordIcon} style={styles.icon}/>
                     <TextInput
                         style={styles.input}
                         placeholder="Password"
@@ -92,15 +100,31 @@ export function SettingsView({navigation}) {
                         value={password}
                     />
                 </View>
-                <View style={styles.inputContainer}>
-                    <Image source={subdomainIcon} style={[styles.icon, { alignSelf: "flex-end" }]} />
+                <View style={styles.pickerContainer}>
+                    <Picker
+                        selectedValue={protocol}
+                        style={styles.picker}
+                        onValueChange={(itemValue) => setProtocol(itemValue)}
+                    >
+                        <Picker.Item label="http" value="http"/>
+                        <Picker.Item label="https" value="https"/>
+                    </Picker>
                     <TextInput
-                        style={styles.input}
+                        style={styles.inputSubdomain}
                         placeholder="Sub-domain"
                         placeholderTextColor="#fff"
                         onChangeText={(text) => setSubdomain(text)}
                         value={subdomain}
                     />
+                    <Text>.simplydesk.</Text>
+                    <Picker
+                        selectedValue={tld}
+                        style={styles.picker}
+                        onValueChange={(itemValue) => setTld(itemValue)}
+                    >
+                        <Picker.Item style={styles.pickerItem} label="com" value="com"/>
+                        <Picker.Item style={styles.pickerItem} label="fr" value="fr"/>
+                    </Picker>
                 </View>
                 <View style={styles.validateButtonContainer}>
                     <TouchableOpacity
@@ -121,6 +145,7 @@ export function SettingsView({navigation}) {
     );
 }
 
+// Styles
 const styles = StyleSheet.create({
     container: {
         flex: 1,
@@ -183,5 +208,30 @@ const styles = StyleSheet.create({
         fontSize: 24,
         marginTop: "5%"
     },
+    pickerContainer: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'space-evenly',
+        width: '90%',
+        height: '8%',
+        padding: 20,
+        marginVertical: 10,
+        backgroundColor: "#8103ff",
+        borderRadius: 10,
+        overflow: "hidden"
+    },
+    picker: {
+        width: 110,
+        fontSize: 10,
+    },
+    inputSubdomain: {
+        backgroundColor: 'rgba(185,42,42,0)',
+        borderRadius: 5,
+        paddingHorizontal: 10,
+        paddingVertical: 5,
+        width: '40%',
+        height: 40,
+        textAlign: "center"
+    }
 });
 
