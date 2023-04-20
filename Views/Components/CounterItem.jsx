@@ -17,9 +17,8 @@ export const CounterItem = ({backgroundColor, stateName, count}) => {
 const styles = StyleSheet.create({
     counter: {
         borderStyle: "solid",
-        borderWidth: "1%",
         alignItems: "center",
-        borderRadius: "10%",
+        borderRadius: 10,
         minWidth: "40%",
         marginTop: "4%",
         marginBottom: "4%"

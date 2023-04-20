@@ -99,7 +99,7 @@ const styles = StyleSheet.create({
         width: "100%",
         textAlign: "center",
         fontSize: 24,
-        marginTop: "5%"
+        marginTop: "20%"
     },
     counterFrame: {
         display: "flex",
@@ -119,7 +119,7 @@ const styles = StyleSheet.create({
         display: "flex",
         flexDirection: "row",
         flexWrap: "wrap",
-        borderRadius: "10%",
+        borderRadius: 10,
         paddingLeft: "10%",
         overflow: "hidden"
     },

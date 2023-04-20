@@ -157,7 +157,7 @@ const styles = StyleSheet.create({
         width: '80%',
         flexDirection: 'row',
         alignItems: 'center',
-        marginVertical: 10,
+        marginVertical: 30,
     },
     input: {
         backgroundColor: 'rgba(185,42,42,0)',
@@ -208,14 +208,14 @@ const styles = StyleSheet.create({
         width: "100%",
         textAlign: "center",
         fontSize: 24,
-        marginTop: "5%"
+        marginTop: "20%"
     },
     pickerContainer: {
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'space-evenly',
         width: '90%',
-        height: '8%',
+        height: '10S%',
         padding: 20,
         marginVertical: 10,
         backgroundColor: "#555454",
