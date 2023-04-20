@@ -1,11 +1,12 @@
 import React from 'react';
 import {View, Text, StyleSheet, TouchableOpacity} from 'react-native';
 import * as MailComposer from 'expo-mail-composer';
+import { decode } from 'he';
 
 export const TicketDetails = ({ selectedTicket }) => {
     const handleShareTicket = async () => {
         const emailSubject = `Ticket #${selectedTicket.Number}: ${selectedTicket.Subject}`;
-        const emailBody = `Description: ${selectedTicket.Body}`;
+        const emailBody = `Description: ${decode(selectedTicket.Body)}`;
 
         await MailComposer.composeAsync({
             subject: emailSubject,
@@ -17,7 +18,7 @@ export const TicketDetails = ({ selectedTicket }) => {
         <View style={styles.container}>
             <Text style={styles.header}>Ticket #{selectedTicket.Number}</Text>
             <Text style={styles.subject}>Sujet : {selectedTicket.Subject}</Text>
-            <Text style={styles.body}>Description : {selectedTicket.Body}</Text>
+            <Text style={styles.body}>Description : {decode(selectedTicket.Body)}</Text>
             <TouchableOpacity style={styles.shareButton} onPress={handleShareTicket}>
                 <Text style={styles.shareButtonText}>Partager par e-mail</Text>
             </TouchableOpacity>

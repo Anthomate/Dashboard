@@ -133,11 +133,12 @@ const styles = StyleSheet.create({
     settingsButton: {
         position: 'absolute',
         bottom: 0,
-        width: '100%',
-        height: '14%',
+        width: '80%',
+        height: '10%',
         backgroundColor: '#484848',
         justifyContent: 'center',
         alignItems: 'center',
+        borderRadius: 20,
     },
     settingsButtonText: {
         color: '#fff',

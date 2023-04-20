@@ -116,7 +116,7 @@ export function SettingsView({ navigation }) {
                         onChangeText={(text) => setSubdomain(text)}
                         value={subdomain}
                     />
-                    <Text>.simplydesk.</Text>
+                    <Text style={{fontSize: 18}}>.simplydesk.</Text>
                     <Picker
                         selectedValue={tld}
                         style={styles.picker}
@@ -182,6 +182,7 @@ const styles = StyleSheet.create({
         width: '60%',
         alignItems: 'center',
         marginVertical: 20,
+        paddingHorizontal: 30
     },
     validateButtonText: {
         color: '#fff',
@@ -190,11 +191,12 @@ const styles = StyleSheet.create({
     dashboardButton: {
         position: 'absolute',
         bottom: 0,
-        width: '100%',
-        height: '14%',
+        width: '80%',
+        height: '10%',
         backgroundColor: '#484848',
         justifyContent: 'center',
         alignItems: 'center',
+        borderRadius: 20,
     },
     dashboardButtonText: {
         color: '#fff',
@@ -216,7 +218,7 @@ const styles = StyleSheet.create({
         height: '8%',
         padding: 20,
         marginVertical: 10,
-        backgroundColor: "#8103ff",
+        backgroundColor: "#555454",
         borderRadius: 10,
         overflow: "hidden"
     },
@@ -231,7 +233,10 @@ const styles = StyleSheet.create({
         paddingVertical: 5,
         width: '40%',
         height: 40,
-        textAlign: "center"
+        textAlign: "center",
+        fontSize: 18,
+        overflow: "hidden",
+        marginRight: 20
     }
 });
 
